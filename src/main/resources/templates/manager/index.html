@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+		<script th:src="@{/static/layui/layui.js}"></script>
+	</head>
+	<body class="layui-layout-body">
+		<div layout:fragment="content">
+			<h5>管理员管理</h5>
+			<div id="add">
+				<a class="layui-btn" href="/manager/add">添加</a>
+			</div>
+			<table th:fragment="content" class="layui-table">
+				<tr>
+					<th>账户ID</th>
+					<th>账&nbsp;&nbsp;户</th>
+					<th>姓&nbsp;&nbsp;名</th>
+					<th>头&nbsp;&nbsp;像</th>
+					<th>电&nbsp;&nbsp;话</th>
+					<th>操&nbsp;&nbsp;作</th>
+				</tr>
+				<tr th:each="item: ${list}">
+					<td th:text="${item.getMgrId()}"></td>
+					<td th:text="${item.getMgrAccount()}"></td>
+					<td th:text="${item.getMgrName()}"></td>
+					<td><img id="imgSRC" th:src="@{${item.getMgrImg()}}" alt="正在加载" src=""></td>
+					<td th:text="${item.getMgrTel()}"></td>
+					<td>
+						<a th:href="@{/manager/edit(id=${item.getMgrId()})}"
+						   class="layui-btn layui-btn-normal">编辑</a>
+						<a th:href="@{/manager/detail(id=${item.getMgrId()})}"
+						   class="layui-btn layui-btn-normal">详情</a>
+						<form action="/manager/api/del" method="post" id="del" onsubmit="return confirm('确定删除吗?')">
+							<label>
+								<input type="text" name="id" th:value="${item.getMgrId()}"
+								       style="display: none">
+							</label>
+							<input class="layui-btn layui-btn-danger" type="submit" value="删除">
+						</form>
+					</td>
+				</tr>
+			</table>
+			<div>
+				<a th:href="@{/manager/api/select-list(currentPage=${current - 1})}">上一页</a>&nbsp;&nbsp;
+				当前页 <span th:text="${current}"></span>
+				/共 <span th:text="${total}"></span>页&nbsp;&nbsp;
+				<a th:href="@{/manager/api/select-list(currentPage=${current + 1})}">下一页</a>
+			</div>
+		</div>
+	</body>
+</html>

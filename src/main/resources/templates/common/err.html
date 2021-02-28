@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="UTF-8">
+		<title>error</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+	</head>
+	<body>
+		<div layout:fragment="content">
+			出了一点错误。。。
+			<a class="layui-btn layui-btn-normal" href="/manager/select-list">点击返回</a>
+		</div>
+	</body>
+</html>

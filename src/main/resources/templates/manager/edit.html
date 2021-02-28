@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+		<script th:src="@{/static/layui/layui.js}"></script>
+	</head>
+	<body class="layui-layout-body">
+		<div layout:fragment="content">
+			<script th:src="@{/static/js/validate.js}"></script>
+			<h5>管理员管理</h5>
+			<form onsubmit="return managerCheckInformation()" id="edit-form" class="layui-form" action="/manager/api/edit" method="post" enctype="multipart/form-data">
+				<div>
+					<img id="imgSRC" src="" th:src="@{${user.getMgrImg()}}" alt="正在加载">
+					<input class="" type="file" name="img" id="" value="上传图像">
+				</div>
+				<div>
+					<label for="id">ID：</label>
+					<input id="id" class="layui-input" type="text" th:value="${user.getMgrId()}" disabled/>
+					<input class="layui-input" type="text" name="id" th:value="${user.getMgrId()}" style="display: none"/>
+				</div>
+				<div>
+					<label for="name">姓名：</label>
+					<input id="name" class="layui-input" type="text" name="name" th:value="${user.getMgrName()}"/>
+				</div>
+				<div>
+					<label for="account">帐号：</label>
+					<input id="account" class="layui-input" type="text" lay-verify="username" name="account"
+					       th:value="${user.getMgrAccount()}"/>
+				</div>
+				<div>
+					<label for="password">密码：</label>
+					<input id="password" class="layui-input" type="password" lay-verify="pass" name="password"
+					       th:value="${user.getMgrPwd()}"/>
+				</div>
+				<div>
+					<label for="tel">电话：</label>
+					<input id="tel" class="layui-input" type="text" name="tel" th:value="${user.getMgrTel()}"/>
+				</div>
+				<input class="layui-btn layui-btn-normal" lay-submit="" type="submit" value="提交">
+			</form>
+			<a id="back" class="layui-btn layui-btn-danger" href="/manager/select-list">返回</a>
+		</div>
+	</body>
+</html>

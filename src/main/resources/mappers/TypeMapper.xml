@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hubu.xiaomishop.mapper.TypeMapper">
+    <resultMap id="BaseResultMap" type="edu.hubu.xiaomishop.model.Type">
+        <id column="type_id" jdbcType="VARCHAR" property="typeId"/>
+        <result column="type_name" jdbcType="VARCHAR" property="typeName"/>
+        <result column="type_desc" jdbcType="VARCHAR" property="typeDesc"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from "type"
+        where type_id = #{record.typeId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectList" resultMap="BaseResultMap">
+        select *
+        from type
+        order by type.type_id
+        limit #{size} offset #{from}
+    </select>
+    <select id="selectListLike" resultMap="BaseResultMap">
+        select *
+        from type
+        <where>
+            <if test="type.typeName != null">
+                type_name like concat('%',#{type.typeName},'%')
+            </if>
+            <if test="type.typeDesc != null">
+                and type_desc concat('%',#{type.typeDesc},'%')
+            </if>
+        </where>
+        order by type.type_id
+        limit #{size} offset #{from}
+    </select>
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select *
+        from type
+        where type_name = #{name};
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select *
+        from type
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from "type"
+        where type_id = #{typeId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertSelective" keyColumn="type_id" keyProperty="typeId" parameterType="edu.hubu.xiaomishop.model.Type"
+            useGeneratedKeys="true">
+        insert into "type"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            type_id,
+            <if test="record.typeName != null">
+                type_name,
+            </if>
+            <if test="record.typeDesc != null">
+                type_desc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{record.typeId},
+            <if test="record.typeName != null">
+                #{record.typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeDesc != null">
+                #{record.typeDesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="edu.hubu.xiaomishop.model.Type">
+        update "type"
+        <set>
+            <if test="record.typeName != null">
+                type_name = #{record.typeName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.typeDesc != null">
+                type_desc = #{record.typeDesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where type_id = #{record.typeId,jdbcType=VARCHAR}
+    </update>
+</mapper>

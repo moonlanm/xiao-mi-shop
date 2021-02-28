@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hubu.xiaomishop.mapper.ManagerMapper">
+    <resultMap id="BaseResultMap" type="edu.hubu.xiaomishop.model.Manager">
+        <id column="mgr_id" jdbcType="VARCHAR" property="mgrId"/>
+        <result column="mgr_account" jdbcType="VARCHAR" property="mgrAccount"/>
+        <result column="mgr_pwd" jdbcType="VARCHAR" property="mgrPwd"/>
+        <result column="mgr_name" jdbcType="VARCHAR" property="mgrName"/>
+        <result column="mgr_img" jdbcType="VARCHAR" property="mgrImg"/>
+        <result column="mgr_tel" jdbcType="VARCHAR" property="mgrTel"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from "manager"
+        where mgr_id = #{record.mgrId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectList" resultMap="BaseResultMap">
+        select *
+        from manager
+        order by manager.mgr_id
+        limit #{size} offset #{from}
+    </select>
+    <select id="selectListLike" resultMap="BaseResultMap">
+        select *
+        from manager
+        <where>
+            <if test="manager.mgrAccount != null">
+                mgr_account like concat('%',#{manager.mgrAccount},'%')
+            </if>
+            <if test="manager.mgrPwd != null">
+                and mgr_pwd like concat('%',#{manager.mgrPwd},'%')
+            </if>
+            <if test="manager.mgrName != null">
+                and mgr_name like concat('%',#{manager.mgrName},'%')
+            </if>
+            <if test="manager.mgrImg != null">
+                and mgr_img like concat('%',#{manager.mgrImg},'%')
+            </if>
+            <if test="manager.mgrTel != null">
+                and mgr_tel like concat('%',#{manager.mgrTel},'%')
+            </if>
+        </where>
+        order by manager.mgr_id
+        limit #{size} offset #{from}
+    </select>
+    <select id="login" resultMap="BaseResultMap">
+        select *
+        from manager
+        where mgr_account = #{account}
+          and mgr_pwd = #{pwd};
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select *
+        from manager
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from "manager"
+        where mgr_id = #{record.mgrId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertSelective" keyColumn="mgr_id" keyProperty="mgrId"
+            parameterType="edu.hubu.xiaomishop.model.Manager" useGeneratedKeys="true">
+        insert into "manager"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            mgr_id,
+            <if test="record.mgrAccount != null">
+                mgr_account,
+            </if>
+            <if test="record.mgrPwd != null">
+                mgr_pwd,
+            </if>
+            <if test="record.mgrName != null">
+                mgr_name,
+            </if>
+            <if test="record.mgrImg != null">
+                mgr_img,
+            </if>
+            <if test="record.mgrTel != null">
+                mgr_tel,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{record.mgrId},
+            <if test="record.mgrAccount != null">
+                #{record.mgrAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrPwd != null">
+                #{record.mgrPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrName != null">
+                #{record.mgrName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrImg != null">
+                #{record.mgrImg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrTel != null">
+                #{record.mgrTel,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="edu.hubu.xiaomishop.model.Manager">
+        update "manager"
+        <set>
+            <if test="record.mgrAccount != null">
+                mgr_account = #{record.mgrAccount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrPwd != null">
+                mgr_pwd = #{record.mgrPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrName != null">
+                mgr_name = #{record.mgrName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrImg != null">
+                mgr_img = #{record.mgrImg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mgrTel != null">
+                mgr_tel = #{record.mgrTel,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where mgr_id = #{record.mgrId,jdbcType=VARCHAR}
+    </update>
+</mapper>

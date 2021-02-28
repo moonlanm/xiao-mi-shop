@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+		<script th:src="@{/static/layui/layui.js}"></script>
+	</head>
+	<body class="layui-layout-body">
+		<div layout:fragment="content">
+			<h5>商品管理</h5>
+			<form onsubmit="return goodsCheckInformation()" id="edit-form" class="layui-form" action="/goods/api/add" method="post" enctype="multipart/form-data">
+				<div>
+					<input class="" type="file" name="img" id="goodsImg" value="上传图像">
+				</div>
+				<div>
+					ID：
+					<input id="goodsId" class="layui-input" type="text" name="id"/>
+				</div>
+				<div>
+					名称：
+					<input id="goodsName" class="layui-input" type="text" name="name"/>
+				</div>
+				<div>
+					价格：
+					<input id="goodsPrice" class="layui-input" lay-verify="number" type="text" name="price"/>
+				</div>
+				<div>
+					数量：
+					<input id="goodsNum" class="layui-input" lay-verify="number" type="text" name="num"/>
+				</div>
+				<div>
+					描述：
+					<textarea id="goodDesc" name="desc" class="layui-textarea" rows="3"></textarea>
+				</div>
+				<div>
+					细节：
+					<textarea name="detail" class="layui-textarea" rows="3"></textarea>
+				</div>
+				<div>
+					类别：
+					<select name="typeId" class="layui-select" lay-verify="">
+						<option value="-1">请选择一个类别</option>
+						<option th:each="item: ${types}" th:value="${item.getTypeId()}"
+						        th:text="${item.getTypeName()}"></option>
+					</select>
+				</div>
+				<input class="layui-btn layui-btn-normal" lay-submit="" type="submit" value="提交">
+			</form>
+			<a id="back" class="layui-btn layui-btn-danger" href="/goods/select-list">返回</a>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+		<script th:src="@{/static/layui/layui.js}"></script>
+	</head>
+	<body class="layui-layout-body">
+		<div layout:fragment="content">
+			<h5>商品管理</h5>
+			<a class="layui-btn layui-btn-primary" href="/goods/api/select-list">所有类别</a>
+			<a class="layui-btn layui-btn-primary" style="margin-left: 5px;margin-right: 5px" th:each="item: ${types}"
+			   th:href="@{/goods/api/select-list(typeId=${item.getTypeId()})}" th:text="${item.getTypeName()}"></a>
+			<div id="add">
+				<a class="layui-btn" href="/goods/add">添加</a>
+			</div>
+			<table class="layui-table">
+				<tr>
+					<th>商品ID</th>
+					<th>名&nbsp;&nbsp;称</th>
+					<th>图&nbsp;&nbsp;片</th>
+					<th>价&nbsp;&nbsp;格</th>
+					<th>数&nbsp;&nbsp;量</th>
+					<th>描&nbsp;&nbsp;述</th>
+					<th>细&nbsp;&nbsp;节</th>
+					<th>类&nbsp;&nbsp;别</th>
+					<th>操&nbsp;&nbsp;作</th>
+				</tr>
+				<tr th:each="item: ${list}">
+					<td th:text="${item.getGoodsId()}"></td>
+					<td th:text="${item.getGoodsName()}"></td>
+					<td><img id="imgSRC" th:src="@{${item.getGoodsImg()}}" alt="正在加载" src=""></td>
+					<td th:text="${item.getGoodsPrice()}"></td>
+					<td th:text="${item.getGoodsNum()}"></td>
+					<td th:text="${item.getGoodsDesc()}"></td>
+					<td th:text="${item.getGoodsDetail()}"></td>
+					<td th:text="${item.getGoodsType().getTypeName()}"></td>
+					<td>
+						<a th:href="@{/goods/edit(id=${item.getGoodsId()})}"
+						   class="layui-btn layui-btn-normal">编辑</a>
+						<a th:href="@{/goods/detail(id=${item.getGoodsId()})}"
+						   class="layui-btn layui-btn-normal">详情</a>
+						<form action="/goods/api/del" method="post" id="del" onsubmit="return confirm('确定删除吗?')">
+							<label>
+								<input type="text" name="id" th:value="${item.getGoodsId()}"
+								       style="display: none">
+							</label>
+							<input class="layui-btn layui-btn-danger" type="submit" value="删除">
+						</form>
+					</td>
+				</tr>
+			</table>
+			<div>
+				<a th:href="@{/goods/api/select-list(currentPage=${current - 1},typeId=${selectedType})}">上一页</a>&nbsp;&nbsp;
+				当前页 <span th:text="${current}"></span>
+				/共 <span th:text="${total}"></span>页&nbsp;&nbsp;
+				<a th:href="@{/goods/api/select-list(currentPage=${current + 1},typeId=${selectedType})}">下一页</a>
+			</div>
+		</div>
+	</body>
+</html>

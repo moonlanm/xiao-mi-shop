@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<script th:src="@{/static/js/validate.js}"></script>
+	</head>
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<div class="layui-logo">layui 后台布局</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item"><a href="">控制台</a></li>
+					<li class="layui-nav-item"><a href="">商品管理</a></li>
+					<li class="layui-nav-item"><a href="">用户</a></li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">其它系统</a>
+						<dl class="layui-nav-child">
+							<dd><a href="">邮件管理</a></dd>
+							<dd><a href="">消息管理</a></dd>
+							<dd><a href="">授权管理</a></dd>
+						</dl>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img th:src="${#session.getAttribute('user').getMgrImg()}" class="layui-nav-img">
+							<span th:text="${#session.getAttribute('user').getMgrName()}"></span>
+						</a>
+						<dl class="layui-nav-child">
+							<dd><a href="">基本资料</a></dd>
+							<dd><a href="">安全设置</a></dd>
+						</dl>
+					</li>
+					<form style="display: inline" class="layui-nav-item" action="/manager/api/logout" method="post">
+						<input class="layui-btn layui-btn-normal" type="submit" value="登出">
+					</form>
+				</ul>
+			</div>
+			
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="test">
+						<li class="layui-nav-item"><a href="/manager/select-list">管理员管理</a></li>
+						<li class="layui-nav-item"><a href="/goods/select-list">商品管理</a></li>
+						<li class="layui-nav-item"><a href="/type/select-list">类别管理</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">
+					<div layout:fragment="content"></div>
+				</div>
+			</div>
+			
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© layui.com - 底部固定区域
+			</div>
+		</div>
+		<script th:src="@{/static/layui/layui.js}"></script>
+		<script>
+            layui.use('form', function(){
+                var form = layui.form;
+                form.render();
+            });
+            //JavaScript代码区域
+            let layer;
+            layui.use('layer', function () {
+                layer = layui.layer;
+
+            });
+
+            function managerCheckInformation() {
+                //校验类别名称
+                const id = document.getElementById("id").value;
+                if (id == "") {
+                    console.log("请输入管理员ID！")
+                    layer.msg("请输入管理员ID！")
+                    return false;
+                }
+
+                const img = document.getElementById("img").value;
+                if (img == "") {
+                    console.log("请选择文件路径！")
+                    layer.msg("请选择文件路径！")
+                    return false;
+                }
+
+                const name = document.getElementById("name").value;
+                if (name == "") {
+                    console.log("请输入管理员名称！")
+                    layer.msg("请输入管理员名称！")
+                    return false;
+                }
+
+
+                const account = document.getElementById("account").value;
+                if (account == "") {
+                    console.log("请输入管理员帐号！")
+                    layer.msg("请输入管理员帐号！")
+                    return false;
+                }
+
+
+                const password = document.getElementById("password").value;
+                if (password == "") {
+                    layer.msg("请输入管理员密码！")
+                    return false;
+                }
+
+                const passwordRep = document.getElementById("passwordRep").value;
+                if (passwordRep == "") {
+                    layer.msg("请再次输入管理员密码！")
+                    return false;
+                }
+
+                if (password != passwordRep) {
+                    layer.msg("两次密码不一致，请重新输入！")
+                    return false;
+                }
+
+                const tel = document.getElementById("tel");
+                if (tel == "") {
+                    layer.msg("请输入管理员电话！")
+                    return false;
+                }
+                return true;
+            }
+
+            function goodsCheckInformation() {
+                //校验类别名称
+                const name = document.getElementById("goodsName").value;
+                if (name === "") {
+                    layer.msg("请输入商品名称！")
+                    return false;
+                } else if (name.length < 2 || name.length > 12) {
+                    alert("商品名称长度必须为2—20个字符！");
+                    return false;
+                }
+
+                const goodsId = document.getElementById("goodsId").value;
+                if (goodsId === "") {
+                    layer.msg("请输入商品ID！")
+                    return false;
+                }
+
+                const img = document.getElementById("goodsImg").value;
+                if (img == "") {
+                    layer.msg("请选择文件路径！")
+                    return false;
+                }
+
+                const price = document.getElementById("goodsPrice").value;
+                if (price == "") {
+                    layer.msg("请输入商品价格！")
+                    return false;
+                }
+
+                if (!(/^[0-9]+.?[0-9]{0,2}$/.test(price))) {
+                    layer.msg("商品价格为数字！")
+                    return false;
+                }
+
+
+                const num = document.getElementById("goodsNum").value;
+                if (num == "") {
+                    layer.msg("请输入商品库存！")
+                    return false;
+                }
+
+                if (!(/^[0-9]*$/.test(num))) {
+                    layer.msg("商品库存为数字！")
+                    return false;
+                }
+
+
+                const desc = document.getElementById("goodDesc").value;
+                if (desc.length > 400) {
+                    layer.msg("商品描述长度不能超过400个字符！")
+                    return false;
+                }
+
+                const tid = document.getElementById("goodsTid").value;
+                if (tid == "" || tid == "-1") {
+                    layer.msg("请选择商品类别！")
+                    return false;
+                }
+                return true;
+            }
+
+            function typeCheckInformation() {
+                //校验类别名称
+                let name = document.getElementById("name").value;
+                if (name == "") {
+                    layer.msg("请输入类别名称！")
+                    return false;
+                } else if (name.length < 2 || name.length > 12) {
+                    alert("类别名称长度必须为2—12个字符！");
+                    return false;
+                }
+
+                let id = document.getElementById("id").value;
+                if (id == "") {
+                    layer.msg("请输入类别ID！")
+                    return false;
+                }
+
+                let desc = document.getElementById("desc").value;
+                if (desc.length > 40) {
+                    layer.msg("类别描述长度不能超过40个字符！")
+                    return false;
+                }
+
+                return true;
+            }
+		</script>
+	</body>
+</html>

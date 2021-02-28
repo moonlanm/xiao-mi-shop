@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+	</head>
+	<body class="layui-layout-body">
+		<div layout:fragment="content">
+			<h5>类型管理</h5>
+			<div id="add">
+				<a class="layui-btn" href="/type/add">添加</a>
+			</div>
+			<table id="tb" class="layui-table">
+				<tr>
+					<th>类别ID</th>
+					<th>名&nbsp;&nbsp;称</th>
+					<th>描&nbsp;&nbsp;述</th>
+					<th>操&nbsp;&nbsp;作</th>
+				</tr>
+				<tr th:each="item: ${list}">
+					<td th:text="${item.getTypeId()}"></td>
+					<td th:text="${item.getTypeName()}"></td>
+					<td th:text="${item.getTypeDesc()}"></td>
+					<td>
+						<a th:href="@{/type/edit(id=${item.getTypeId()})}"
+						   class="layui-btn layui-btn-normal">编辑</a>
+						<a th:href="@{/type/detail(id=${item.getTypeId()})}"
+						   class="layui-btn layui-btn-normal">详情</a>
+						<form action="/type/api/del" method="post" id="del" onsubmit="return confirm('确定删除吗?')">
+							<label>
+								<input type="text" name="id" th:value="${item.getTypeId()}"
+								       style="display: none">
+							</label>
+							<input class="layui-btn layui-btn-danger" type="submit" value="删除">
+						</form>
+					</td>
+				</tr>
+			</table>
+			<div>
+				<a th:href="@{/type/api/select-list(currentPage=${current - 1})}">上一页</a>&nbsp;&nbsp;
+				当前页 <span th:text="${current}"></span>
+				/共 <span th:text="${total}"></span>页&nbsp;&nbsp;
+				<a th:href="@{/type/api/select-list(currentPage=${current + 1})}">下一页</a>
+			</div>
+		</div>
+	</body>
+</html>

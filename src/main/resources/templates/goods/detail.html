@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<h5>商品管理</h5>
+			<div style="float: left">
+				<img style="width: 400px;height: 300px;" th:src="@{${goods.getGoodsImg()}}" src="" alt="">
+			</div>
+			<div style="margin-left: 500px">
+				ID：<span th:text="${goods.getGoodsId()}"></span><br><br>
+				名称：<span th:text="${goods.getGoodsName()}"></span><br><br>
+				价格：<span th:text="${goods.getGoodsPrice()}"></span><br><br>
+				数量：<span th:text="${goods.getGoodsNum()}"></span><br><br>
+				描述：<span th:text="${goods.getGoodsDesc()}"></span><br><br>
+				细节：<span th:text="${goods.getGoodsDetail()}"></span><br><br>
+				类别：<span th:text="${goods.getGoodsType().getTypeName()}"></span><br><br>
+			</div>
+			<a style="margin-left: 800px" id="back" class="layui-btn layui-btn-danger" href="/goods/select-list">返回</a>
+		</div>
+	</body>
+</html>

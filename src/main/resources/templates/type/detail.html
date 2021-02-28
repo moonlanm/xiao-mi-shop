@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="UTF-8">
+		<title>Title</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<h5>类别管理</h5>
+			<div style="margin-left: 500px">
+				ID：<span th:text="${type.getTypeId()}"></span><br><br>
+				名称：<span th:text="${type.getTypeName()}"></span><br><br>
+				描述：<span th:text="${type.getTypeDesc()}"></span><br><br>
+			</div>
+			<a style="margin-left: 800px" id="back" class="layui-btn layui-btn-danger" href="/type/select-list">返回</a>
+		</div>
+	</body>
+</html>

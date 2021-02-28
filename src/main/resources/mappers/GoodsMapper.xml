@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.hubu.xiaomishop.mapper.GoodsMapper">
+    <resultMap id="BaseResultMap" type="edu.hubu.xiaomishop.model.Goods">
+        <id column="goods_id" jdbcType="VARCHAR" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_img" jdbcType="VARCHAR" property="goodsImg"/>
+        <result column="goods_price" jdbcType="DOUBLE" property="goodsPrice"/>
+        <result column="goods_num" jdbcType="INTEGER" property="goodsNum"/>
+        <result column="goods_desc" jdbcType="VARCHAR" property="goodsDesc"/>
+        <result column="goods_detail" jdbcType="VARCHAR" property="goodsDetail"/>
+        <result column="goods_type_id" jdbcType="VARCHAR" property="goodsTypeId"/>
+        <association property="goodsType" javaType="edu.hubu.xiaomishop.model.Type"
+                     resultMap="edu.hubu.xiaomishop.mapper.TypeMapper.BaseResultMap"/>
+    </resultMap>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from "goods" as g
+                 left join type as t on t.type_id = g.goods_type_id
+        where goods_id = #{record.goodsId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectList" resultMap="BaseResultMap">
+        select *
+        from goods as g
+                 left join type as t on t.type_id = g.goods_type_id
+        order by g.goods_id
+        limit #{size} offset #{from}
+    </select>
+    <select id="selectListLike" resultMap="BaseResultMap">
+        select *
+        from goods as g
+        left join type as t on t.type_id = g.goods_type_id
+        <where>
+            <if test="goods.goodsName != null">
+                goods_name like concat('%',#{goods.goodsName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goods.goodsImg != null">
+                and goods_img like concat('%',#{goods.goodsImg,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goods.goodsPrice != null">
+                and goods_price like concat('%',#{goods.goodsPrice,jdbcType=DOUBLE},'%')
+            </if>
+            <if test="goods.goodsNum != null">
+                and goods_num like concat('%',#{goods.goodsNum,jdbcType=INTEGER},'%')
+            </if>
+            <if test="goods.goodsDesc != null">
+                and goods_desc like concat('%',#{goods.goodsDesc,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goods.goodsDetail != null">
+                and goods_detail like concat('%',#{goods.goodsDetail,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="goods.goodsTypeId != null">
+                and goods_type_id like concat('%',#{goods.goodsTypeId,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+        order by g.goods_id
+        limit #{size} offset #{from}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select *
+        from goods
+    </select>
+    <select id="selectListByType" resultMap="BaseResultMap">
+        select *
+        from goods as g
+                 left join type as t
+                           on t.type_id = g.goods_type_id
+        where goods_type_id = #{typeId}
+        order by g.goods_id
+        limit #{size} offset #{from}
+    </select>
+    <select id="selectAllByType" resultMap="BaseResultMap">
+        select *
+        from goods as g
+                 left join type as t
+                           on t.type_id = g.goods_type_id
+        where goods_type_id = #{typeId}
+        order by g.goods_id
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from "goods"
+        where goods_id = #{record.goodsId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insertSelective" keyColumn="goods_id" keyProperty="goodsId"
+            parameterType="edu.hubu.xiaomishop.model.Goods" useGeneratedKeys="true">
+        insert into "goods"
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            goods_id,
+            <if test="record.goodsName != null">
+                goods_name,
+            </if>
+            <if test="record.goodsImg != null">
+                goods_img,
+            </if>
+            <if test="record.goodsPrice != null">
+                goods_price,
+            </if>
+            <if test="record.goodsNum != null">
+                goods_num,
+            </if>
+            <if test="record.goodsDesc != null">
+                goods_desc,
+            </if>
+            <if test="record.goodsDetail != null">
+                goods_detail,
+            </if>
+            <if test="record.goodsTypeId != null">
+                goods_type_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{record.goodsId},
+            <if test="record.goodsName != null">
+                #{record.goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsImg != null">
+                #{record.goodsImg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsPrice != null">
+                #{record.goodsPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="record.goodsNum != null">
+                #{record.goodsNum,jdbcType=INTEGER},
+            </if>
+            <if test="record.goodsDesc != null">
+                #{record.goodsDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsDetail != null">
+                #{record.goodsDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsTypeId != null">
+                #{record.goodsTypeId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="edu.hubu.xiaomishop.model.Goods">
+        update "goods"
+        <set>
+            <if test="record.goodsName != null">
+                goods_name = #{record.goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsImg != null">
+                goods_img = #{record.goodsImg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsPrice != null">
+                goods_price = #{record.goodsPrice,jdbcType=DOUBLE},
+            </if>
+            <if test="record.goodsNum != null">
+                goods_num = #{record.goodsNum,jdbcType=INTEGER},
+            </if>
+            <if test="record.goodsDesc != null">
+                goods_desc = #{record.goodsDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsDetail != null">
+                goods_detail = #{record.goodsDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.goodsTypeId != null">
+                goods_type_id = #{record.goodsTypeId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where goods_id = #{record.goodsId,jdbcType=VARCHAR}
+    </update>
+</mapper>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<script th:src="@{/static/layui/layui.js}"></script>
+	</head>
+	<body class="layui-layout-body">
+		<div layout:fragment="content">
+			<h5>类型管理</h5>
+			<div id="content">
+				<form onsubmit="return typeCheckInformation()" id="edit-form" action="/type/api/add" method="post">
+					<div>
+						<label for="id">ID：</label>
+						<input id="id" class="layui-input" type="text" name="id"/>
+					</div>
+					<div>
+						<label for="name">名称：</label>
+						<input id="name" class="layui-input" type="text" name="name"/>
+					</div>
+					<div>
+						<label for="desc">描述：</label>
+						<textarea id="desc" name="desc" class="layui-textarea" rows="3"></textarea>
+					</div>
+					<input class="layui-btn layui-btn-normal" type="submit" value="提交">
+				</form>
+				<a id="back" class="layui-btn layui-btn-danger" href="/type/select-list">返回</a>
+			</div>
+		</div>
+	</body>
+</html>

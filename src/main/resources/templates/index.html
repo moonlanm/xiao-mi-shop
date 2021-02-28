@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>登陆</title>
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<script th:src="@{/static/layui/layui.js}"></script>
+	</head>
+	<body id="body">
+		<div class="layui-form">
+			<form id="login-form" action="/manager/api/login" method="post">
+				<input type="text" required lay-verify="required" class="layui-input text" name="account" placeholder="帐&nbsp;号"/><br>
+				<input type="password" required lay-verify="required" class="layui-input text" name="pwd" placeholder="密&nbsp;码"/><br>
+				<button type="submit" class="layui-btn layui-btn-normal button">登陆</button>
+				<div style="color: #fc5858" th:if="${loginErrMsg} != null" th:text="${loginErrMsg}"></div>
+			</form>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="~{common/layer}">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>layout 后台大布局 - Layui</title>
+		<link rel="stylesheet" th:href="@{/static/layui/css/layui.css}">
+		<link rel="stylesheet" th:href="@{/static/css/main.css}">
+	</head>
+	<body class="layui-layout-body">
+		<div layout:fragment="content">
+			<h5>管理员管理</h5>
+			<form onsubmit="return managerCheckInformation()" id="edit-form" class="layui-form" action="/manager/api/add" method="post"
+			      enctype="multipart/form-data">
+				<div>
+					<input class="" type="file" name="img" id="img" value="上传图像">
+				</div>
+				<div>
+					<label for="id">ID：</label>
+					<input id="id" class="layui-input" type="text" name="id"/>
+				</div>
+				<div>
+					<label for="name">姓名：</label>
+					<input id="name" class="layui-input" type="text" name="name"/>
+				</div>
+				<div>
+					<label for="account">帐号：</label>
+					<input id="account" class="layui-input" lay-verify="username" type="text" name="account"/>
+				</div>
+				<div>
+					<label for="password">密码：</label>
+					<input class="layui-input" id="password" lay-verify="pass" type="password" name="password"/>
+				</div>
+				<div>
+					<label for="passwordRep">密码：</label>
+					<input class="layui-input" id="passwordRep" lay-verify="pass" type="password" name="passwordRep"/>
+					<span id="errMsg"></span>
+				</div>
+				<div>
+					<label for="tel">电话：</label>
+					<input id="tel" lay-verify="phone" class="layui-input" type="text" name="tel"/>
+				</div>
+				<input class="layui-btn layui-btn-normal" lay-submit="" type="submit" value="提交">
+			</form>
+			<a id="back" class="layui-btn layui-btn-danger" href="/manager/select-list">返回</a>
+		</div>
+	</body>
+</html>
